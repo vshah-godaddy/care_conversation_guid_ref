@@ -38,4 +38,4 @@ jobs:
       run: |
         ls
         cd pyspark_app/src
-        pytest
+        python -m unittest -v 
