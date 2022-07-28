@@ -7,7 +7,7 @@ from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import *
 from pyspark.sql import functions as F
 from pyspark.sql.types import TimestampType
-
+from pytz import timezone
 # from configs.properties import properties
 
 
@@ -156,9 +156,7 @@ class ConversationGuidRef():
 
     @staticmethod
     def add_etl_build_mst_ts(spark_session:SparkSession, df: DataFrame):
-        time_stamp = spark_session.sql("SELECT CURRENT_TIMESTAMP as etl_build_mst_ts")
-        return df.withColumn('etl_build_mst_ts', time_stamp.etl_build_mst_ts)
-
+        return  df.withColumn('etl_build_mst_ts', F.lit(str(datetime.now(timezone('MST')))).cast(TimestampType()))
     @staticmethod
     def select_final_columns(df: DataFrame) -> DataFrame:
         return df.select(
